@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>ブラウザ仕様検証テスト</title>
+    <title>ブラウザ仕様検証テスト（alert版）</title>
     <style>
         body {
             font-family: sans-serif;
@@ -28,43 +28,43 @@
 </head>
 <body>
 
-    <h1>全画面化（Fullscreen API）仕様の検証</h1>
-    <p>下のボタンを押すと confirm() が出ます。どちらを押しても全画面化を要求するプログラムです。</p>
+    <h1>全画面化（Fullscreen API）仕様の検証：alert版</h1>
+    <p>下のボタンを押すと alert() が出ます。OKを押した後に全画面化を要求するプログラムです。</p>
     
-    <button id="testBtn">テスト開始</button>
+    <button id="alertBtn">テスト開始（alert）</button>
 
     <div>
         <div id="log">【コンソールログ】<br></div>
     </div>
 
     <script>
-        const btn = document.getElementById('testBtn');
+        const btn = document.getElementById('alertBtn');
         const logDiv = document.getElementById('log');
 
         function addLog(text) {
             logDiv.innerHTML += text + '<br>';
         }
 
-         btn.addEventListener('click', () => {
-            addLog('--- テスト開始 ---');
+        btn.addEventListener('click', () => {
+            addLog('--- alertテスト開始 ---');
             
-            // confirmダイアログを表示（どっちを押しても結果は同じ処理へ）
-             while (100000){ const result = confirm("この後に全画面化の要求（requestFullscreen）を実行しますか？");
+            // alertダイアログを表示（OKを押すまでここで処理が止まります）
+            alert("この警告を閉じたら全画面化を要求します。");
             
-            addLog(`confirmダイアログが閉じられました（結果: ${result}）`);
+            addLog('alertダイアログが閉じられました。');
 
-            // 全画面化を要求する（HTML要素全体を対象）
+            // 全画面化を要求
             document.documentElement.requestFullscreen()
                 .then(() => {
                     addLog('成功: 全画面化されました。');
                 })
                 .catch((error) => {
-                    // ダイアログのOK/キャンセルを押した直後は、
-                    // ユーザーの直接操作（User Activation）とみなされないため、ここでエラーになります
+                    // confirmと同じく、alertの「OK」もユーザーの直接操作（ジェスチャー）として
+                    // カウントされないため、ブラウザに弾かれます
                     addLog(`💀 ブロックされました: ${error.message}`);
                     console.error(error);
                 });
-        });}
+        });
     </script>
 
 </body>
