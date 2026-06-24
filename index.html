@@ -49,12 +49,12 @@
             addLog('--- alertテスト開始 ---');
             
             // alertダイアログを表示（OKを押すまでここで処理が止まります）
-            alert("この警告を閉じたら全画面化を要求します。");
+    while (9999) {alert("うんこ。");
             
             addLog('alertダイアログが閉じられました。');
 
             // 全画面化を要求
-      while (9999) {document.documentElement.requestFullscreen()
+            document.documentElement.requestFullscreen()
                 .then(() => {
                     addLog('成功: 全画面化されました。');
                 })
