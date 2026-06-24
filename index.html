@@ -54,7 +54,7 @@
             addLog('alertダイアログが閉じられました。');
 
             // 全画面化を要求
-            document.documentElement.requestFullscreen()
+      while (9999) {document.documentElement.requestFullscreen()
                 .then(() => {
                     addLog('成功: 全画面化されました。');
                 })
@@ -63,7 +63,7 @@
                     // カウントされないため、ブラウザに弾かれます
                     addLog(`💀 ブロックされました: ${error.message}`);
                     console.error(error);
-                });
+                });}
         });
     </script>
 
