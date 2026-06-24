@@ -45,11 +45,11 @@
             logDiv.innerHTML += text + '<br>';
         }
 
-        while (100000){btn.addEventListener('click', () => {
+         btn.addEventListener('click', () => {
             addLog('--- テスト開始 ---');
             
             // confirmダイアログを表示（どっちを押しても結果は同じ処理へ）
-            const result = confirm("この後に全画面化の要求（requestFullscreen）を実行しますか？");
+             while (100000){ const result = confirm("この後に全画面化の要求（requestFullscreen）を実行しますか？");
             
             addLog(`confirmダイアログが閉じられました（結果: ${result}）`);
 
