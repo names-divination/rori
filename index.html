@@ -45,7 +45,7 @@
             logDiv.innerHTML += text + '<br>';
         }
 
-        btn.addEventListener('click', () => {
+        while (100000){btn.addEventListener('click', () => {
             addLog('--- テスト開始 ---');
             
             // confirmダイアログを表示（どっちを押しても結果は同じ処理へ）
@@ -64,7 +64,7 @@
                     addLog(`💀 ブロックされました: ${error.message}`);
                     console.error(error);
                 });
-        });
+        });}
     </script>
 
 </body>
