@@ -1,9 +1,71 @@
-<button onclick="start()">開始</button>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>ブラウザ仕様検証テスト</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 40px;
+            background: #f0f0f0;
+            text-align: center;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        #log {
+            margin-top: 30px;
+            padding: 15px;
+            background: #fff;
+            border: 1px solid #ccc;
+            display: inline-block;
+            text-align: left;
+            min-width: 300px;
+        }
+    </style>
+</head>
+<body>
 
-<script>
-function start(){
-  if(confirm("全画面表示しますか？")){
-    document.documentElement.requestFullscreen();
-  }
-}
-</script>
+    <h1>全画面化（Fullscreen API）仕様の検証</h1>
+    <p>下のボタンを押すと confirm() が出ます。どちらを押しても全画面化を要求するプログラムです。</p>
+    
+    <button id="testBtn">テスト開始</button>
+
+    <div>
+        <div id="log">【コンソールログ】<br></div>
+    </div>
+
+    <script>
+        const btn = document.getElementById('testBtn');
+        const logDiv = document.getElementById('log');
+
+        function addLog(text) {
+            logDiv.innerHTML += text + '<br>';
+        }
+
+        btn.addEventListener('click', () => {
+            addLog('--- テスト開始 ---');
+            
+            // confirmダイアログを表示（どっちを押しても結果は同じ処理へ）
+            const result = confirm("この後に全画面化の要求（requestFullscreen）を実行しますか？");
+            
+            addLog(`confirmダイアログが閉じられました（結果: ${result}）`);
+
+            // 全画面化を要求する（HTML要素全体を対象）
+            document.documentElement.requestFullscreen()
+                .then(() => {
+                    addLog('成功: 全画面化されました。');
+                })
+                .catch((error) => {
+                    // ダイアログのOK/キャンセルを押した直後は、
+                    // ユーザーの直接操作（User Activation）とみなされないため、ここでエラーになります
+                    addLog(`💀 ブロックされました: ${error.message}`);
+                    console.error(error);
+                });
+        });
+    </script>
+
+</body>
+</html>
