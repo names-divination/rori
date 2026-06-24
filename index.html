@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>ブラウザ仕様検証テスト（alert版）</title>
+    <title>ブラウザ仕様検証テスト（無限ループ版）</title>
     <style>
         body {
             font-family: sans-serif;
@@ -14,56 +14,36 @@
             padding: 15px 30px;
             font-size: 18px;
             cursor: pointer;
-        }
-        #log {
-            margin-top: 30px;
-            padding: 15px;
-            background: #fff;
-            border: 1px solid #ccc;
-            display: inline-block;
-            text-align: left;
-            min-width: 300px;
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
 
-    <h1>全画面化（Fullscreen API）仕様の検証：alert版</h1>
-    <p>下のボタンを押すと alert() が出ます。OKを押した後に全画面化を要求するプログラムです。</p>
+    <h1>無限ループ＋全画面化要求の検証</h1>
+    <p>下のボタンを押すと、while (true) による無限アラートと全画面化要求が始まります。</p>
+    <p>現代のブラウザがどうやってこれを瞬時に鎮圧するか確認してください。</p>
     
-    <button id="alertBtn">テスト開始（alert）</button>
-
-    <div>
-        <div id="log">【コンソールログ】<br></div>
-    </div>
+    <button id="loopBtn">無限ループテスト開始</button>
 
     <script>
-        const btn = document.getElementById('alertBtn');
-        const logDiv = document.getElementById('log');
-
-        function addLog(text) {
-            logDiv.innerHTML += text + '<br>';
-        }
-
-        btn.addEventListener('click', () => {
-            addLog('--- alertテスト開始 ---');
+        document.getElementById('loopBtn').addEventListener('click', () => {
+            alert("今から無限ループを開始します。ブラウザの自衛機能に注目してください。");
             
-            // alertダイアログを表示（OKを押すまでここで処理が止まります）
-    while (9999) {alert("うんこ。");
-            
-            addLog('alertダイアログが閉じられました。');
-
-            // 全画面化を要求
-            document.documentElement.requestFullscreen()
-                .then(() => {
-                    addLog('成功: 全画面化されました。');
-                })
-                .catch((error) => {
-                    // confirmと同じく、alertの「OK」もユーザーの直接操作（ジェスチャー）として
-                    // カウントされないため、ブラウザに弾かれます
-                    addLog(`💀 ブロックされました: ${error.message}`);
-                    console.error(error);
-                });}
+            // 無限ループの開始
+            while (true) {
+                // 1. アラートを出す
+                alert("ループ中...");
+                
+                // 2. 全画面化を要求（毎回拒否されます）
+                document.documentElement.requestFullscreen().catch((err) => {
+                    // コンソールにエラーは出ますが、アラートのせいで見る余裕はありません
+                    console.log("ブロックされました");
+                });
+            }
         });
     </script>
 
